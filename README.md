@@ -70,18 +70,21 @@ Microsoft.Extensions.Caching.StackExchangeRedis → Redis caching
 
 xUnit → Unit testing framework
 
-# Running the Project
+🚀 Running the Project
 Development
 dotnet build
 dotnet run --project MovieDirector.API
 
 
 API will be available at:
-https://localhost:5001/swagger
+👉 https://localhost:5001/swagger
 
 Docker
-# docker build -t moviedirectorapp .
-# docker run -d -p 8080:8080 moviedirectorapp
+
+docker build -t moviedirectorapp .
+
+docker run -d -p 8080:8080 moviedirectorapp
+
 
 # Future Improvements
 
@@ -93,4 +96,4 @@ Docker
 
 ✅ Setup CI/CD pipelines (GitHub Actions, Azure DevOps, GitLab CI, etc.)
 
-✅ To run with Redis Distributed, orchestrate two or more container with compose or Kubernates (GitHub Actions, Azure DevOps, GitLab CI, etc.)
+✅ To run with Redis Distributed, orchestrate two or more container with Docker Compose or Kubernates 
