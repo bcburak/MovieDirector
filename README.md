@@ -96,4 +96,4 @@ docker run -d -p 8080:8080 moviedirectorapp
 
 ✅ Setup CI/CD pipelines (GitHub Actions, Azure DevOps, GitLab CI, etc.)
 
-✅ To run with Redis Distributed, orchestrate two or more container with compose or Kubernates (GitHub Actions, Azure DevOps, GitLab CI, etc.)
+✅ To run with Redis Distributed, orchestrate two or more container with Docker Compose or Kubernates 
