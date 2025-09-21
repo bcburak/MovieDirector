@@ -1,6 +1,9 @@
-﻿namespace MovieDirectorApp.Application.Queries
+﻿using MediatR;
+using MovieDirectorApp.Domain.Entities;
+
+namespace MovieDirectorApp.Application.Queries
 {
-    public class GetAllMoviesQuery
+    public class GetAllMoviesQuery : IRequest<IEnumerable<Movie>>
     {
     }
 }

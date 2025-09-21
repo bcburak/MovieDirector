@@ -16,5 +16,10 @@ namespace MovieDirectorApp.Infrastructure.Context
 
         public IMongoCollection<Movie> Movies => _database.GetCollection<Movie>("Movies");
         public IMongoCollection<Director> Directors => _database.GetCollection<Director>("Directors");
+
+        public IMongoCollection<T> GetCollection<T>(string name)
+        {
+            return _database.GetCollection<T>(name);
+        }
     }
 }

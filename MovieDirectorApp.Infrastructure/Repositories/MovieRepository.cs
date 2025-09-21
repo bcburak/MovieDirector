@@ -1,9 +1,10 @@
 ﻿using MongoDB.Driver;
 using MovieDirectorApp.Domain.Entities;
+using MovieDirectorApp.Domain.Interfaces;
 
 namespace MovieDirectorApp.Infrastructure.Repositories
 {
-    class MovieRepository
+    public class MovieRepository : IMovieRepository
     {
         private readonly IMongoCollection<Movie> _movies;
 
@@ -26,5 +27,6 @@ namespace MovieDirectorApp.Infrastructure.Repositories
 
         public async Task DeleteAsync(string id) =>
             await _movies.DeleteOneAsync(m => m.Id == id);
+
     }
 }

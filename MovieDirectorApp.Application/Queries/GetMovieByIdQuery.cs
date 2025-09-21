@@ -2,5 +2,6 @@
 {
     public class GetMovieByIdQuery
     {
+        public string? Id { get; set; }
     }
 }

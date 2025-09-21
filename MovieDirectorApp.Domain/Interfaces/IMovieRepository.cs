@@ -2,12 +2,13 @@
 
 namespace MovieDirectorApp.Domain.Interfaces
 {
-    interface IMovieRepository
+    public interface IMovieRepository //IGenericRepository<Movie>
     {
+
         Task<IEnumerable<Movie>> GetAllAsync();
         Task<Movie?> GetByIdAsync(string id);
-        Task AddAsync(Movie movie);
-        Task UpdateAsync(Movie movie);
+        Task AddAsync(Movie entity);
+        Task UpdateAsync(Movie entity);
         Task DeleteAsync(string id);
     }
 }

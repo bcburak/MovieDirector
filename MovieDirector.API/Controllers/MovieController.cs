@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MovieDirector.API.Common;
 using MovieDirectorApp.Application.Commands;
+using MovieDirectorApp.Application.Queries;
 using MovieDirectorApp.Domain.Entities;
 
 namespace MovieDirector.API.Controllers;
@@ -17,39 +19,50 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet]
+    [Route("getAllMovies")]
     public async Task<IActionResult> GetAll()
     {
-        return Ok();
+        var movies = await _mediator.Send(new GetAllMoviesQuery());
+        if (movies is null)
+            return NotFound(ResponseModel<IEnumerable<Movie>>.Failure("Record is not found."));
+        //Movie , Could be extended with DTOs
+        return Ok(ResponseModel<IEnumerable<Movie>>.SuccessResponse(movies, "success"));
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateMovieCommand command)
+    [Route("createMovie")]
+    public async Task<IActionResult> CreateMovie([FromBody] CreateMovieCommand command)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         var result = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+        return Ok(ResponseModel<string>.SuccessResponse(result, "success"));
     }
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    [HttpPut("updateMovie")]
+    public async Task<IActionResult> UpdateMovie([FromBody] UpdateMovieCommand command)
     {
-        return null;
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(command);
+        if (!result)
+            return NotFound();
+
+        return Ok(ResponseModel<bool>.SuccessResponse(result, "success"));
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
+    [HttpPut("deleteMovie/{id:guid}")]
+    public async Task<IActionResult> DeleteMovie(string id)
     {
-        return Ok();
+        var result = await _mediator.Send(new DeleteMovieCommand(id));
+        if (!result)
+            return NotFound();
+
+        return Ok(ResponseModel<bool>.SuccessResponse(result, "success"));
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(string id, [FromBody] Movie movie)
-    {
 
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(string id)
-    {
-        return NoContent();
-    }
 }
