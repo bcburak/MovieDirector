@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MovieDirectorApp.Application.Interfaces;
 using MovieDirectorApp.Domain.Entities;
 using MovieDirectorApp.Domain.Interfaces;
 
@@ -12,10 +13,12 @@ namespace MovieDirectorApp.Application.Commands.Handlers
     {
 
         private readonly IMovieRepository _repository;
+        private readonly IRedisCacheService _cache;
 
-        public MovieCommandHandler(IMovieRepository repository)
+        public MovieCommandHandler(IMovieRepository repository, IRedisCacheService cache)
         {
             _repository = repository;
+            _cache = cache;
         }
 
         public async Task<string> Handle(CreateMovieCommand command, CancellationToken cancellationToken)
@@ -47,6 +50,8 @@ namespace MovieDirectorApp.Application.Commands.Handlers
         public async Task<bool> Handle(DeleteMovieCommand command, CancellationToken cancellationToken)
         {
             await _repository.DeleteAsync(command.Id);
+            await _cache.RemoveAsync("all_movies"); // Cache invalidation sample
+            //still need transaction handling for real world app
             return true;
         }
 
